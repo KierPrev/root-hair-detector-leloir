@@ -1,0 +1,22 @@
+{
+    "min_hair_length_px": 30,
+    "min_straightness": 0.7,
+    "max_bow_ratio": 0.1,
+    "hysteresis_low_pct": 96,
+    "hysteresis_high_pct": 98,
+    "sato_sigmas": [
+        1,
+        1.5,
+        2
+    ],
+    "max_path_overlap": 0.5,
+    "root_margin_px": 6,
+    "min_sharpness_pct": 0,
+    "max_angle_deg": 55,
+    "bright_blob_pct": 99.0,
+    "filtrar_cruces": false,
+    "spur_prune_px": 12,
+    "junction_min_dist_px": 40,
+    "max_blob_overlap": 1.0,
+    "base_reach_px": 6
+}

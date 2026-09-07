@@ -1,0 +1,11 @@
+{
+    "image": "data/samples/Col0_1.tif",
+    "zona": null,
+    "zona_completa": [
+        -0.5,
+        1919.5,
+        -0.5,
+        2559.5
+    ],
+    "crop": null
+}
