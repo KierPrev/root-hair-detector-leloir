@@ -39,6 +39,9 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="skimage")
 BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "data" / "results"
 
+# Calibrado con data/rule_reference.tif: 1 píxel equivale a 2 micrómetros.
+UM_PER_PX = 2.0
+
 CONFIG_PATH = Path(__file__).resolve().with_name("parametros_deteccion.json")
 
 DEFAULT_PARAMS = {
@@ -539,9 +542,9 @@ def process(path: Path, crop: tuple | None = None, params: dict | None = None, q
     csv_path = RESULTS_DIR / f"{stem}_hairs.csv"
     with open(csv_path, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["image", "hair_id", "length_px", "base_x", "base_y", "tip_x", "tip_y", "cortado"])
+        writer.writerow(["image", "hair_id", "length_px", "length_um", "base_x", "base_y", "tip_x", "tip_y", "cortado"])
         for i, hair in enumerate(hairs, start=1):
-            writer.writerow([stem, i, round(hair["length_px"], 2),
+            writer.writerow([stem, i, round(hair["length_px"], 2), round(hair["length_px"] * UM_PER_PX, 2),
                              hair["base"][0], hair["base"][1], hair["tip"][0], hair["tip"][1],
                              int(hair["truncated"])])
 
@@ -550,8 +553,9 @@ def process(path: Path, crop: tuple | None = None, params: dict | None = None, q
 
     lengths = [h["length_px"] for h in hairs]
     if lengths:
-        print(f"{stem}: {len(hairs)} pelos | mediana {np.median(lengths):.0f} px | "
-              f"rango {min(lengths):.0f}-{max(lengths):.0f} px")
+        lengths_um = [l * UM_PER_PX for l in lengths]
+        print(f"{stem}: {len(hairs)} pelos | mediana {np.median(lengths_um):.1f} µm | "
+              f"rango {min(lengths_um):.1f}-{max(lengths_um):.1f} µm")
     else:
         print(f"{stem}: sin pelos detectados")
     return hairs

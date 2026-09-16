@@ -25,8 +25,11 @@ jobs:
       - name: Build executable
         run: pyinstaller --onefile --name deteccion-pelos src/root_hairs.py
 
-      - name: Upload executable
+      - name: Armar paquete para probar en Windows
+        run: Copy-Item dist\deteccion-pelos.exe windows_release\deteccion-pelos.exe
+
+      - name: Upload package
         uses: actions/upload-artifact@v4
         with:
           name: deteccion-pelos-windows
-          path: dist/deteccion-pelos.exe
+          path: windows_release/
