@@ -11,7 +11,7 @@ if "%~1"=="" (
 for %%F in (%*) do (
     echo.
     echo Procesando %%~nxF ...
-    powershell -NoProfile -Command "Measure-Command { & '%~dp0deteccion-pelos.exe' '%%F' } | Select-Object TotalSeconds"
+    powershell -NoProfile -Command "Measure-Command { & '%~dp0hair-detection.exe' '%%F' } | Select-Object TotalSeconds"
 )
 
 echo.
