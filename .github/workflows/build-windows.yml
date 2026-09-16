@@ -23,7 +23,7 @@ jobs:
           pip install pyinstaller tifffile
 
       - name: Build executable
-        run: pyinstaller --onefile --name deteccion-pelos src/root_hairs.py
+        run: pyinstaller --onefile --name deteccion-pelos --add-data "src/parametros_deteccion.json;." src/root_hairs.py
 
       - name: Armar paquete para probar en Windows
         run: Copy-Item dist\deteccion-pelos.exe windows_release\deteccion-pelos.exe

@@ -14,6 +14,7 @@ import argparse
 import csv
 import heapq
 import json
+import sys
 from pathlib import Path
 
 import warnings
@@ -36,13 +37,20 @@ from skimage.morphology import (
 # corresponde y estos avisos vienen de dependencias internas.
 warnings.filterwarnings("ignore", category=FutureWarning, module="skimage")
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Congelado con PyInstaller: __file__ vive dentro de la carpeta temporal de
+# auto-extracción (se borra al cerrar el programa), así que los resultados
+# tienen que ir relativos al directorio de trabajo, no a __file__.
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path.cwd()
+    CONFIG_PATH = Path(sys._MEIPASS) / "parametros_deteccion.json"
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    CONFIG_PATH = Path(__file__).resolve().with_name("parametros_deteccion.json")
+
 RESULTS_DIR = BASE_DIR / "data" / "results"
 
 # Calibrado con data/rule_reference.tif: 1 píxel equivale a 2 micrómetros.
 UM_PER_PX = 2.0
-
-CONFIG_PATH = Path(__file__).resolve().with_name("parametros_deteccion.json")
 
 DEFAULT_PARAMS = {
     # Un pelo real mide bastante más que unos pocos píxeles; por debajo de esto
